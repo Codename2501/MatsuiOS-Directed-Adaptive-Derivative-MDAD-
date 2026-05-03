@@ -1,0 +1,27 @@
+# Chapter 6 — Pseudocode Implementation (Python/Taichi Style)
+
+```python
+def os_scale(x):
+    k = decide_scale_level(x)
+    return base_scale * (2 ** k)
+
+def os_direction(x):
+    candidates = generate_candidate_directions(x)
+    best_d = None
+    best_M = float('inf')
+    for d in candidates:
+        m = M(x, d)
+        if m < best_M:
+            best_M = m
+            best_d = d
+    return best_d
+
+def mdad_discrete(f, x):
+    ell = os_scale(x)
+    d = os_direction(x)
+    return (f(x + ell * d) - f(x)) / ell
+
+def mdad_discrete_complex(f, x):
+    ell = os_scale(x)
+    d = os_direction(x)
+    return (f(x + 1j * ell * d) - f(x)) / (1j * ell)
